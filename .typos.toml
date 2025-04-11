@@ -1,0 +1,10 @@
+[files]
+extend-exclude = [
+	".git/",
+	"tmp/",
+	"vendor/",
+	"node_modules/",
+	".typos.toml",
+	"*.xml",
+]
+ignore-hidden = false

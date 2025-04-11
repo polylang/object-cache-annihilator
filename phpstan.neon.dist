@@ -1,0 +1,10 @@
+parameters:
+    level: max
+    paths:
+        - src/
+        - object-cache-annihilator.php
+    scanFiles:
+        - drop-in.php
+    treatPhpDocTypesAsCertain: false
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
