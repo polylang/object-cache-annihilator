@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+composer.lock
+package-lock.json
+package.json
+composer.json
+
+# Development tools
+.git/
+.github/
+bin/
+temp/
+.gitignore
+.editorconfig
+.eslintrc*
+phpcs.xml.dist
+phpstan.neon.dist
+
+# Documentation
+README.md
+
+# Tests
+tests/
+
+# IDE and editor files
+.idea/
+.vscode/
+.DS_Store
+
+# Distributions
+dist/
