@@ -1,0 +1,33 @@
+{
+    "name": "wpsyntex/object-cache-annihilator",
+    "description": "A simple file-based object cache implementation for testing purposes.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "version": "0.1.0",
+    "autoload": {
+        "psr-4": {
+            "WP_Syntex\\Object_Cache_Annihilator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "WP Syntex"
+        }
+    ],
+    "scripts": {
+        "cs": "vendor/bin/phpcs",
+        "cs-fix": "vendor/bin/phpcbf",
+        "stan": "vendor/bin/phpstan analyze --memory-limit=512M"
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "wpsyntex/polylang-cs": "dev-main",
+        "szepeviktor/phpstan-wordpress": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
+        }
+    }
+}
