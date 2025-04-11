@@ -1,0 +1,19 @@
+{
+  "name": "object-cache-annihilator",
+  "version": "0.1.0",
+  "description": "A simple file-based object cache implementation for testing purposes.",
+  "type": "module",
+  "scripts": {
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
+    "env:clean": "wp-env clean",
+    "env:start:fresh": "wp-env start && wp-env clean",
+    "env:composer": "wp-env run tests-cli --env-cwd=wp-content/plugins/object-cache-annihilator composer",
+    "dist": "node bin/distribute.js"
+  },
+  "author": "WP SYntex",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@wordpress/env": "^10.21.0"
+  }
+}
