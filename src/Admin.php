@@ -20,7 +20,7 @@ use WP_Syntex\Object_Cache_Annihilator\Dropper;
  * Class Admin
  *
  * Manages the admin bar integration for object cache operations.
- * 
+ *
  * @phpstan-type NoticeArray array{
  *     type: 'success'|'error',
  *     message: string
@@ -95,7 +95,7 @@ class Admin {
 			return;
 		}
 
-		$is_enabled = wp_using_ext_object_cache() && $wp_object_cache instanceof Object_Cache_Annihilator;
+		$is_enabled = wp_using_ext_object_cache() && class_exists( Object_Cache_Annihilator::class ) && $wp_object_cache instanceof Object_Cache_Annihilator;
 		$action     = $is_enabled ? 'disable' : 'enable';
 		$title      = $is_enabled ? __( 'Die 🔫', 'object-cache-annihilator' ) : __( 'Resurrect 👻', 'object-cache-annihilator' );
 
@@ -135,23 +135,15 @@ class Admin {
 	 * @since 0.1.0
 	 *
 	 * @global WP_Object_Cache|Object_Cache_Annihilator $wp_object_cache
-	 * 
-	 * @return never
+	 *
+	 * @return never|void
 	 */
 	public function handle_actions() {
 		global $wp_object_cache;
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			$this->set_notice( 'error', __( 'You do not have sufficient permissions to access this page.', 'object-cache-annihilator' ) );
-			wp_safe_redirect( admin_url() );
-			exit;
-		}
-
-		$action = isset( $_GET['action'] ) ? $_GET['action'] : '';
+		$action = isset( $_GET['action'] ) ? sanitize_text_field( $_GET['action'] ) : '';
 		if ( ! in_array( $action, [ 'object_cache_enable', 'object_cache_disable', 'object_cache_flush' ], true ) ) {
-			$this->set_notice( 'error', __( 'Invalid action.', 'object-cache-annihilator' ) );
-			wp_safe_redirect( admin_url() );
-			exit;
+			return;
 		}
 
 		check_admin_referer( $action );
@@ -160,9 +152,18 @@ class Admin {
 		$notice_type    = 'success';
 		$notice_message = '';
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$this->set_notice( 'error', __( 'You do not have sufficient permissions to access this page.', 'object-cache-annihilator' ) );
+			wp_safe_redirect( admin_url(), 302, 'X-Redirect-By: Object Cache Annihilator' );
+			exit;
+		}
+
 		switch ( $action ) {
 			case 'object_cache_enable':
 				$this->dropper->drop();
+				if ( ! class_exists( Object_Cache_Annihilator::class ) ) {
+					require_once \OBJECT_CACHE_ANNIHILATOR_DIR . '/drop-in.php';
+				}
 				Object_Cache_Annihilator::instance()->resurrect();
 				if ( $wp_object_cache instanceof Object_Cache_Annihilator ) {
 					$notice_message = __( 'Object cache enabled successfully.', 'object-cache-annihilator' );
@@ -201,7 +202,7 @@ class Admin {
 			$this->set_notice( $notice_type, $notice_message );
 		}
 
-		wp_safe_redirect( $redirect_url );
+		wp_safe_redirect( $redirect_url, 302, 'X-Redirect-By: Object Cache Annihilator' );
 		exit;
 	}
 
@@ -224,7 +225,7 @@ class Admin {
 		if ( ! is_array( $notice ) || ! isset( $notice['type'] ) || ! isset( $notice['message'] ) ) {
 			return;
 		}
-		
+
 		$class   = 'notice notice-' . esc_attr( $notice['type'] );
 		$message = wp_kses( $notice['message'], [] );
 
