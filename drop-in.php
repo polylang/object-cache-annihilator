@@ -556,6 +556,10 @@ class Object_Cache_Annihilator {
 /**
  * Core cache functions implementation.
  */
+if ( function_exists( 'wp_cache_init' ) ) {
+	// Should not happen except in PHPUnit tests.
+	return;
+}
 
 // phpcs:disable NeutronStandard.Globals.DisallowGlobalFunctions.GlobalFunctions
 // phpcs:disable Squiz.Commenting.FunctionComment.Missing
