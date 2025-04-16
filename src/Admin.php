@@ -141,7 +141,7 @@ class Admin {
 	public function handle_actions() {
 		global $wp_object_cache;
 
-		$action = isset( $_GET['action'] ) ? sanitize_text_field( $_GET['action'] ) : '';
+		$action = isset( $_GET['action'] ) && is_string( $_GET['action'] ) ? sanitize_key( $_GET['action'] ) : '';
 		if ( ! in_array( $action, [ 'object_cache_enable', 'object_cache_disable', 'object_cache_flush' ], true ) ) {
 			return;
 		}
@@ -164,6 +164,7 @@ class Admin {
 				if ( ! class_exists( Object_Cache_Annihilator::class ) ) {
 					require_once \OBJECT_CACHE_ANNIHILATOR_DIR . '/drop-in.php';
 				}
+
 				Object_Cache_Annihilator::instance()->resurrect();
 				if ( $wp_object_cache instanceof Object_Cache_Annihilator ) {
 					$notice_message = __( 'Object cache enabled successfully.', 'object-cache-annihilator' );
