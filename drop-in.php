@@ -117,6 +117,37 @@ class Object_Cache_Annihilator {
 	}
 
 	/**
+	 * Makes private properties readable for backward compatibility.
+	 *
+	 * @see WP_Object_Cache::__get()
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $name Property to get.
+	 * @return mixed Property.
+	 */
+	public function __get( $name ) { // phpcs:ignore NeutronStandard.MagicMethods.DisallowMagicGet.MagicGet
+		return $this->$name;
+	}
+
+	/**
+	 * Makes private properties settable for backward compatibility.
+	 *
+	 * @see WP_Object_Cache::__set()
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $name  Property to set.
+	 * @param mixed  $value Property value.
+	 * @return mixed Newly-set property.
+	 */
+	public function __set( $name, $value ) { // phpcs:ignore NeutronStandard.MagicMethods.DisallowMagicSet.MagicSet
+		$this->$name = $value;
+
+		return $this->$name;
+	}
+
+	/**
 	 * Adds data to the cache if it doesn't already exist.
 	 *
 	 * @param string $key    The cache key.
