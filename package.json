@@ -11,7 +11,7 @@
     "env:composer": "wp-env run tests-cli --env-cwd=wp-content/plugins/object-cache-annihilator composer",
     "dist": "node bin/distribute.js"
   },
-  "author": "WP SYntex",
+  "author": "WP Syntex",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@wordpress/env": "^10.21.0"
