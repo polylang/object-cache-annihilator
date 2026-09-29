@@ -1,3 +1,5 @@
+<img width="609" height="900" alt="Annihilator" src="https://github.com/user-attachments/assets/e4d75d4a-b525-41dd-98a5-208314ddeffe" />
+
 # Object Cache Annihilator
 
 A simple file-based object cache implementation for WordPress, designed for testing purposes. This plugin provides a convenient way to test and debug WordPress object cache functionality.
